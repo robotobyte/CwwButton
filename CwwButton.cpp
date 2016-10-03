@@ -2,7 +2,7 @@
 //
 // Button Class
 // ------------
-// Code by W. Witt; V1.00-beta-01; July 2016
+// Code by W. Witt; V1.00-beta-02; July 2016
 //
 // ****************************************************************************
 
@@ -22,8 +22,8 @@ CwwButton::CwwButton (
 ) {
 
   this->pinOfButton    = pinOfButton;
-  this->pinIsAnalog    = pinIsAnalog;
   this->debounceTimeMs = debounceTimeMs;
+  this->pinIsAnalog    = pinIsAnalog;
 
   pinMode ( pinOfButton, INPUT );
   buttonStateLast = readPin ();
@@ -156,7 +156,7 @@ boolean CwwButton::isStableAtState ( uint8_t state ) {
 
 // ----------------------------------------------------------------------------
 
-void CwwButton::setDebounceTime ( uint16_t ) {
+void CwwButton::setDebounceTime ( uint16_t debounceTimeMs ) {
 
   this->debounceTimeMs = debounceTimeMs;
 
@@ -179,7 +179,7 @@ uint8_t CwwButton::readPin () {
   uint8_t stateOfPin;
 
   if ( pinIsAnalog ) {
-    stateOfPin = analogRead ( pinOfButton ) > ( 0x3ff >> 1 ) ? HIGH : LOW;
+    stateOfPin = analogRead ( pinOfButton ) > ( 1023 / 2 ) ? HIGH : LOW;
   }
   else {
     stateOfPin = digitalRead ( pinOfButton );
